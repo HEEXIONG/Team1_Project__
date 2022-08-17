@@ -89,7 +89,7 @@ local.properties
 *.tar.gz
 *.rar
 
-
+# custom ###
 .project
 .classpath
 pom.properties
