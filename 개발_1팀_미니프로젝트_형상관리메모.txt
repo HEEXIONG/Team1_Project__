@@ -12,6 +12,16 @@
 1. 수정 버전 표기(예시 : 수정일자 및 분류 활용) : 2022-08-17
 2. 수정자 : 김영균
 3. 수정 사항
-  ojdbc6	dependency 추가
+root-context.xml 내용 추가
+/domain - BoardVO.java 추가
+/ojdbc6 dependency 추가,
+/resources - log4jdbc.log4j2.properties 추가,
+/mapper폴더 , mappertest 추가
+/resources - org.zerock.mapper폴더추가 /boardMapper.xml 추가
+main - org.zerock.mapper BoardMapper.java 추가 
+
+
+  
+   
 
 ------------------------------------------------------------------------------
