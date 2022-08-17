@@ -2,7 +2,7 @@
 *.class
 pom.properties
 .classpath
-.settings
+.settings/
 .project
 
 # Log file
