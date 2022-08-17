@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>MiniProject_Team1</name>
 	<comment></comment>
 	<projects>
@@ -43,5 +44,14 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+=======
+	<name>Team1_Project__</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+>>>>>>> refs/remotes/origin/main
 	</natures>
 </projectDescription>
