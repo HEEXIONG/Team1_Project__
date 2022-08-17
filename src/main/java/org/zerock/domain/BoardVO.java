@@ -13,7 +13,7 @@ public class BoardVO {
 	private String celler;
 	private Date regdate;
 	private Date updatedate;
-	private Long price;
+	private int price;
 
 	
 

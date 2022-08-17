@@ -23,7 +23,7 @@ public class BoardServiceImplTests {
 		vo.setTitle("서비스 테스트");
 		vo.setPinfo("서비스 테스트");
 		vo.setCeller("판매자");
-		vo.setPrice(1000L);
+		vo.setPrice(1000);
 		service.register(vo);
 		log.info(vo);
 		
