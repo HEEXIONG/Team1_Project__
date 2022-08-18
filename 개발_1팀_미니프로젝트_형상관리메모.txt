@@ -12,6 +12,7 @@
 1. 수정 버전 표기(예시 : 수정일자 및 분류 활용) : 2022-08-17
 2. 수정자 : 김영균
 3. 수정 사항
+
 root-context.xml 내용 추가
 java - BoardVO.java 추가
 pom.xml - ojdbc6 dependency 추가,
