@@ -30,3 +30,5 @@ public class BoardController {
 		return "redirect:/board/test";
 	}
 }
+
+//잠시 잘되나 한번 더 테스트 해봤어요
