@@ -16,11 +16,11 @@
 	</properties>
 	<dependencies>
 	
-		<!-- <dependency>
+		<dependency>
 	    	<groupId>com.oracle.database.jdbc</groupId>
 	    	<artifactId>ojdbc6</artifactId>
 	    	<version>11.2.0.4</version>
-		</dependency> -->
+		</dependency>
 	<!-- Page608 spring-security-taglib 관련 4개 라이브러리를 추가해 줍니다 -->
 	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
 	<dependency>

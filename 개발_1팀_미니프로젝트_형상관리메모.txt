@@ -13,12 +13,16 @@
 2. 수정자 : 김영균
 3. 수정 사항
 root-context.xml 내용 추가
-/domain - BoardVO.java 추가
-/ojdbc6 dependency 추가,
-/resources - log4jdbc.log4j2.properties 추가,
-/mapper폴더 , mappertest 추가
-/resources - org.zerock.mapper폴더추가 /boardMapper.xml 추가
-main - org.zerock.mapper BoardMapper.java 추가 
+java - BoardVO.java 추가
+pom.xml - ojdbc6 dependency 추가,
+resources - log4jdbc.log4j2.properties 추가,
+resources - boardMapper 추가
+java - mappe 추가 
+java - service / serviceimpl 추가
+java - boardcontroller 추가
+webapp = register/test 추가
+
+
 
 
   
