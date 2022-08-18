@@ -12,9 +12,9 @@
 VALUES (pd_seq.nextval,#{title},#{pinfo},#{celler},#{price})
   </insert>
   
-  
-  
-  
+  <select id="getlist" resultType="org.zerock.domain.BoardVO">
+  select * from pd_board
+  </select>
   
   <update id="update">
   update pd_board
@@ -22,7 +22,8 @@ VALUES (pd_seq.nextval,#{title},#{pinfo},#{celler},#{price})
 	title = #{title},
 	pinfo = #{pinfo},
 	celler = #{celler},
-	price = #{price}
+	price = #{price},
+	updatedate = sysdate
 	where pno = #{pno};
   </update>
  

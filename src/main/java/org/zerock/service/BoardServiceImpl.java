@@ -1,5 +1,7 @@
 package org.zerock.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.BoardVO;
@@ -21,6 +23,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void register(BoardVO vo) {
 		mapper.insert(vo);	
+	}
+
+	@Override
+	public List<BoardVO> showlist() {
+		return mapper.getlist();
 	}
 
 }
