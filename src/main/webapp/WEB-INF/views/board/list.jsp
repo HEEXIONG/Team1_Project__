@@ -42,7 +42,7 @@
 </c:forEach>
 </tbody>
 <tr>
-<td colspan="7"><input type="button" value="글쓰기 " class="btn btn-primary pullright" onclick="javascript:location.href='board/register'"></td>
+<td colspan="7"><input type="button" value="글쓰기 " class="btn btn-primary pullright" onclick="javascript:location.href='/register'"></td>
 </tr>
 </table>
 </form>
