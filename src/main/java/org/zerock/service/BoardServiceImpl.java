@@ -27,6 +27,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardVO> showlist() {
+		
 		return mapper.getlist();
 	}
 
