@@ -1,6 +1,7 @@
 package org.zerock.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -14,6 +15,9 @@ public class BoardVO {
 	private Date regdate;
 	private Date updatedate;
 	private int price;
+	private List<AttachImageVO> imageList;
+
+
 
 	
 

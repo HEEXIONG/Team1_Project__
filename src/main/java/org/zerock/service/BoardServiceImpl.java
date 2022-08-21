@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.zerock.domain.AttachImageVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.mapper.BoardMapper;
 
@@ -22,13 +23,34 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void register(BoardVO vo) {
+		
 		mapper.insert(vo);	
+		
+		if(vo.getImageList() == null || vo.getImageList().size() <= 0) {
+			return;
+		}
+		
+		vo.getImageList().forEach(attach ->{
+			attach.setPno(vo.getPno());
+			mapper.imageinsert(attach);
+		});
+		
 	}
 
+	
+	
 	@Override
 	public List<BoardVO> showlist() {
 		
 		return mapper.getlist();
+	}
+
+	
+	
+	
+	@Override
+	public List<AttachImageVO> getAttachList(Long pno) {
+		return mapper.getAttachList(pno);
 	}
 
 }

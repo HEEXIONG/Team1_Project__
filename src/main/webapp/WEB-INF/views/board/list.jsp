@@ -7,14 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
+<link rel="stylesheet" href="/resources/css/cards-gallery.css">
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
 </head>
 <body>
-<h1>showlist</h1>
 
-<div class="container">
+
+<%-- <div class="container">
 <div class="row">
 <form>
 <table class="table table-striped" style="text-align: center; border: 1px solid black">
@@ -47,32 +48,40 @@
 </table>
 </form>
 </div>
-</div>
+</div> --%>
 
-	<%-- <c:forEach items="${list}" var="board">
-						<!-- Page254 아래 ~ Page255 위까지 소스 수정 코딩 시작 -->
-						<tr>
-							<td><c:out value="${board.bno}" /></td>
-							<!-- a 태그에 target="_blank" 속성을 적용하면 새창으로 글 상세 내용을 보여줌 -->	
-							<!-- Page 314 중간 jsp 소스 코딩할 때 아래 소스 주석 처리함 -->
-							<td><a href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td>
-
-							<!-- Page 314 아래 jsp 소스 코딩할 때 아래 소스 추가 코딩 시작 -->
-							<td><a class='move' href='<c:out value="${board.bno}"/>'>
-									<c:out value="${board.title}" />
-									<!-- Page 486 소스 코딩 추가 -->
-									<b>[<c:out value="${board.replyCnt}" /> ]</b>
-							</a></td>
-							<!-- Page 314 아래 jsp 소스 코딩할 때 아래 소스 추가 코딩 끝 -->
-
-							<td><c:out value="${board.writer}" /></td>
-							<td><fmt:formatDate pattern="yyyy-MM-dd"
-									value="${board.regdate}" /></td>
-							<td><fmt:formatDate pattern="yyyy-MM-dd"
-									value="${board.updateDate}" /></td>
-						</tr>
-						<!-- Page254 아래 ~ Page255 위까지 소스 수정 코딩 끝 -->
-					</c:forEach> --%>
+	 
+	<section class="gallery-block cards-gallery">
+	    <div class="container">
+	    <h1 style="text-align: center;">중고 마켓</h1>
+	        <div class="heading">
+	         
+	        </div>
+	        <div class="row">
+	        <c:forEach items="${list}" var="list">
+	            <div class="col-md-6 col-lg-4">
+	            
+	                <div class="card border-0 transform-on-hover">
+	                	<a class="lightbox" href="/resources/image/nothing.jpg">
+	                		<img src="/resources/image/nothing.jpg" alt="Card Image" class="card-img-top">
+	                	</a>
+	                    <div class="card-body">
+	                        <h6><a href="#"><c:out value="${list.title}" /></a></h6>
+	                        <p class="text-muted card-text"><c:out value="${list.pinfo}" /></p>
+	                    </div>
+	                </div>
+	            </div>
+	           
+	            </c:forEach>
+	        </div>
+	    </div>
+    </section>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script> -->
+   <!--  <script>
+        baguetteBox.run('.cards-gallery', { animation: 'slideIn'});
+    </script> -->
+	
+	
 
 </body>
 </html>

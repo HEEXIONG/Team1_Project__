@@ -9,6 +9,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -26,16 +27,15 @@
                     			</div>
                     			
                     			<div class="form_section_content">
-									<input type="file" id ="fileItem" name='uploadFile' style="height: 30px;">
+									<input type="file"  id ="fileItem" name='uploadFile' style="height: 30px;">
                     			</div>
                     			
                     		</div>  
                     		</div>
                     		
 
-<input type="submit">
-</form>
-<hr>
+
+
 
 <div id="uploadResult">
 <!-- <div id="result_card">
@@ -43,6 +43,16 @@
 	<img src="/upload/display?fileName=test.png">
 </div> -->
 </div>
+<input type="submit">
+</form>
+
+
+
+
+
+
+
+
 
 
 
@@ -67,15 +77,15 @@ $("input[type='file']").on("change", function(e){
 	let fileObj = fileList[0];
 	
 	
-	/* if(!fileCheck(fileObj.name, fileObj.size)){
+	 if(!fileCheck(fileObj.name, fileObj.size)){
 		return false;
-	} */
-	
-	formData.append("uploadFile", fileObj);
+	} 
+	//파일하나일때
+	//formData.append("uploadFile", fileObj);
 	//파일여러개일때
-	/* for(let i = 0; i < fileList.length; i++){
-		formData.append("uploadFile", fileList[i]);
-	} */
+	// for(let i = 0; i < fileList.length; i++){
+		formData.append("uploadFile", fileObj);
+	//} 
 	$.ajax({
 		url: '/uploadAjaxAction',
     	processData : false,
@@ -83,7 +93,7 @@ $("input[type='file']").on("change", function(e){
     	data : formData,
     	type : 'POST',
     	dataType : 'json',
-    		success : function(result){
+    	success : function(result){
 	    		console.log(result);
 	    		//$("#uploadResult").css("display" ,"block");
 	    		showUploadImage(result);
@@ -136,6 +146,9 @@ function showUploadImage(uploadResultArr){
 	str += "<div id='result_card'>";
 	str += "<img src='/display?fileName=" + fileCallPath +"'>";
 	str += "<div class='imgDeleteBtn' data-file='"+fileCallPath+"'>x</div>";
+	str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.fileName +"'>";
+	str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
+	str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
 	str += "</div>";		
 	
 		uploadResult.append(str);     
@@ -154,9 +167,7 @@ function deleteFile(){
 		type : 'POST',
 		success : function(result){
 			console.log(result);
-			//$("#uploadResult").css("display" ,"none");
-			$('img').remove();
-			
+			$('#result_card').remove();
 		},
 		error : function(result){
 			console.log(result);

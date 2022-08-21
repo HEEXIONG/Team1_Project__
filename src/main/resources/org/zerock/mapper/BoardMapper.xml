@@ -8,24 +8,27 @@
   InSERT INTO pd_board (pno,title,pinfo,celler,price) values (pd_seq.nextval,${title},${pinfo},${celler},${price})
   </insert> -->
   <insert id="insert">
+  <selectKey keyProperty="pno" order="BEFORE"
+			resultType="long">
+			select pd_seq.nextval from dual
+  </selectKey>
+ 
   insert into pd_board (pno,title,pinfo,celler,price)
-VALUES (pd_seq.nextval,#{title},#{pinfo},#{celler},#{price})
+VALUES (#{pno},#{title},#{pinfo},#{celler},#{price})
   </insert>
   
   <select id="getlist" resultType="org.zerock.domain.BoardVO">
   select * from pd_board
   </select>
   
-  <update id="update">
-  update pd_board
-	set
-	title = #{title},
-	pinfo = #{pinfo},
-	celler = #{celler},
-	price = #{price},
-	updatedate = sysdate
-	where pno = #{pno};
-  </update>
+	<insert id="imageinsert">
+		insert into pd_image(pno, fileName, uploadPath, uuid) values (#{pno}, #{fileName}, #{uploadPath}, #{uuid})
+	</insert>
+	
+	<select id="getAttachList" resultType="org.zerock.domain.AttachImageVO">
+	select * from pd_image where pno = #{pno}
+	
+	</select>
  
  
   </mapper>

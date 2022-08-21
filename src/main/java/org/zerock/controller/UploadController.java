@@ -1,5 +1,6 @@
 package org.zerock.controller;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -60,147 +61,207 @@ ResponseEntity<byte[]> result = null;
 		
 	}
 	
-	@PostMapping("/uploadAjaxAction")
-	//파일여러개업로드시
-	/*
-	 * public void uploadAjaxActionPOST(MultipartFile[] uploadFile){
-	 * for(MultipartFile multipartFile : uploadFile) { log.info("파일 이름 : " +
-	 * uploadFile.getOriginalFilename()); log.info("파일 타입 : " +
-	 * uploadFile.getContentType()); log.info("파일 크기 : " + uploadFile.getSize()); }
-	 * }
-	 */
-	
-	public void uploadAjaxActionsPost(MultipartFile uploadFile) {
-		log.info("uploadAjaxActionPost 실행");
-		String uploadFolder = "C:\\";
+	 @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	 public ResponseEntity<List<AttachImageVO>> uploadAjaxActionPOST(MultipartFile[] uploadFile){
 		
-		// SimpleDateForamt은 Date 클래스를 통해 얻은 오늘의 날짜를 지정된 형식의 문자열 데이터로 생성하기 위해서 사용
+		String uploadFolder = "C:\\upload";
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		//Date 클래스를 오늘의 날짜를 얻기 위해서 사용
+		
 		Date date = new Date();
-		//
+	
 		String str = sdf.format(date);
 		
-		// '-'을 경로 구분자인 '/'(리눅스) 혹은 '\'(윈도)로 변경
+		
 		String datePath = str.replace("-", File.separator);
 		
-		//폴더 생성
 		File uploadPath = new File(uploadFolder, datePath);
-		//폴더가 이미 존재하는 상황에도 사용자가 업로드를 할 때마다 폴더를 생성하는 코드가 무조건 실행을 막기위해
+		
 		if(uploadPath.exists() == false) {
 			uploadPath.mkdirs();
 		}
-
-	}
-	
-
-	@PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	// 파일여러개업로드시
-	/*
-	 * public void uploadAjaxActionPOST(MultipartFile[] uploadFile){
-	 * for(MultipartFile multipartFile : uploadFile) { log.info("파일 이름 : " +
-	 * uploadFile.getOriginalFilename()); log.info("파일 타입 : " +
-	 * uploadFile.getContentType()); log.info("파일 크기 : " + uploadFile.getSize()); }
-	 * }
-	 */
-	public ResponseEntity<List<AttachImageVO>> uploadAjaxActionPost(MultipartFile uploadFile) {
-		log.info("uploadAjaxActionPost 실행");
-		
-		File checkfile = new File(uploadFile.getOriginalFilename());
-		String type = null;
-		try {
-			type = Files.probeContentType(checkfile.toPath());
-			log.info("MIME TYPE : " + type);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		if(!type.startsWith("image")) {
-			
-			List<AttachImageVO> list = null;
-			return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
-			
-		}
-		
-		String uploadFolder = "C:\\upload";
-
-		// SimpleDateForamt은 Date 클래스를 통해 얻은 오늘의 날짜를 지정된 형식의 문자열 데이터로 생성하기 위해서 사용
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-		// Date 클래스를 오늘의 날짜를 얻기 위해서 사용
-		Date date = new Date();
-		//
-		String str = sdf.format(date);
-
-		// '-'을 경로 구분자인 '/'(리눅스) 혹은 '\'(윈도)로 변경
-		String datePath = str.replace("-", File.separator);
-
-		// 폴더 생성
-		File uploadPath = new File(uploadFolder, datePath);
-		// 폴더가 이미 존재하는 상황에도 사용자가 업로드를 할 때마다 폴더를 생성하는 코드가 무조건 실행을 막기위해
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
-		}
-		
 		List<AttachImageVO> list = new ArrayList();
 		
-		// for (MultipartFile multipartFile : uploadFile) {
-
-		AttachImageVO vo = new AttachImageVO();
-		/* 파일 이름 */
-		String uploadFileName = uploadFile.getOriginalFilename();
-		vo.setFileName(uploadFileName);
-		vo.setUploadPath(datePath);
-		
-
-		// uuid 파일이름 중복을 피하기 위해서
-		String uuid = UUID.randomUUID().toString();
-		vo.setUuid(uuid);
-		uploadFileName = uuid + "_" + uploadFileName;
-
-		/* 파일 위치, 파일 이름을 합친 File 객체 */
-		File saveFile = new File(uploadPath, uploadFileName);
-
-		/* 파일 저장 */
-		try {
+	   for(MultipartFile multipartFile : uploadFile) {
+		   
+		   AttachImageVO vo = new AttachImageVO();
+		   
+		   
+			String uploadFileName = multipartFile.getOriginalFilename();
+			vo.setFileName(uploadFileName);
+			vo.setUploadPath(datePath);
+			
+			String uuid = UUID.randomUUID().toString();
+			
+			vo.setUuid(uuid);
+			uploadFileName = uuid + "_" + uploadFileName;
+			
+			
+			File saveFile = new File(uploadPath, uploadFileName);
+			
+			
+			try {
+				multipartFile.transferTo(saveFile);
 				
-			  uploadFile.transferTo(saveFile); //썸네일 이미지파일이름 = s_" + "uuid_" + "원본파일 이름"
-			  /* 1번 방법
-			 * File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
-			 * BufferedImage bo_image = ImageIO.read(saveFile);
-			 * 
-			 * 비율 double ratio = 3; 넓이 높이 int width = (int) (bo_image.getWidth() / ratio);
-			 * int height = (int) (bo_image.getHeight() / ratio);
-			 * 
-			 * BufferedImage bt_image = new BufferedImage(width, height,
-			 * BufferedImage.TYPE_3BYTE_BGR); Graphics2D graphic =
-			 * bt_image.createGraphics(); graphic.drawImage(bo_image, 0, 0,width,height,
-			 * null); ImageIO.write(bt_image, "jpg", thumbnailFile);
-			 */
-			  File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
-			  BufferedImage bo_image = ImageIO.read(saveFile);
-			   
-				double ratio = 3;
-				//넓이 높이
-				int width = (int) (bo_image.getWidth() / ratio);
-				int height = (int) (bo_image.getHeight() / ratio);
-			  
-			  Thumbnails.of(saveFile)
+				File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);	
+				
+				BufferedImage bo_image = ImageIO.read(saveFile);
+
+					 
+					double ratio = 3;
+					
+					int width = (int) (bo_image.getWidth() / ratio);
+					int height = (int) (bo_image.getHeight() / ratio);					
+				
+				
+				Thumbnails.of(saveFile)
 		        .size(width, height)
 		        .toFile(thumbnailFile);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		list.add(vo);
-		// }
-		/* 파일 이름 */
-
-		ResponseEntity<List<AttachImageVO>> result = new ResponseEntity<List<AttachImageVO>>(list, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+			list.add(vo);
+		    } //for
+	   ResponseEntity<List<AttachImageVO>> result = new ResponseEntity<List<AttachImageVO>>(list, HttpStatus.OK);
 		
 		return result;
-	}
+	   }
+	
+	
+	
+		/*
+		 * public void uploadAjaxActionsPost(MultipartFile uploadFile) {
+		 * log.info("uploadAjaxActionPost 실행"); String uploadFolder = "C:\\";
+		 * 
+		 * // SimpleDateForamt은 Date 클래스를 통해 얻은 오늘의 날짜를 지정된 형식의 문자열 데이터로 생성하기 위해서 사용
+		 * SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		 * 
+		 * //Date 클래스를 오늘의 날짜를 얻기 위해서 사용 Date date = new Date(); // String str =
+		 * sdf.format(date);
+		 * 
+		 * // '-'을 경로 구분자인 '/'(리눅스) 혹은 '\'(윈도)로 변경 String datePath = str.replace("-",
+		 * File.separator);
+		 * 
+		 * //폴더 생성 File uploadPath = new File(uploadFolder, datePath); //폴더가 이미 존재하는
+		 * 상황에도 사용자가 업로드를 할 때마다 폴더를 생성하는 코드가 무조건 실행을 막기위해 if(uploadPath.exists() ==
+		 * false) { uploadPath.mkdirs(); }
+		 * 
+		 * }
+		 */
+
+//	@PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	
+//	public ResponseEntity<List<AttachImageVO>> uploadAjaxActionPost(MultipartFile uploadFile) {
+//		log.info("uploadAjaxActionPost 실행");
+//		
+//		File checkfile = new File(uploadFile.getOriginalFilename());
+//		String type = null;
+//		try {
+//			type = Files.probeContentType(checkfile.toPath());
+//			log.info("MIME TYPE : " + type);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		if(!type.startsWith("image")) {
+//			
+//			List<AttachImageVO> list = null;
+//			return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+//			
+//		}
+//		
+//		String uploadFolder = "C:\\upload";
+//
+//		// SimpleDateForamt은 Date 클래스를 통해 얻은 오늘의 날짜를 지정된 형식의 문자열 데이터로 생성하기 위해서 사용
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//
+//		// Date 클래스를 오늘의 날짜를 얻기 위해서 사용
+//		Date date = new Date();
+//		//
+//		String str = sdf.format(date);
+//
+//		// '-'을 경로 구분자인 '/'(리눅스) 혹은 '\'(윈도)로 변경
+//		String datePath = str.replace("-", File.separator);
+//
+//		// 폴더 생성
+//		File uploadPath = new File(uploadFolder, datePath);
+//		// 폴더가 이미 존재하는 상황에도 사용자가 업로드를 할 때마다 폴더를 생성하는 코드가 무조건 실행을 막기위해
+//		if (uploadPath.exists() == false) {
+//			uploadPath.mkdirs();
+//		}
+//		
+//		List<AttachImageVO> list = new ArrayList();
+//		
+//		// for (MultipartFile multipartFile : uploadFile) {
+//
+//		AttachImageVO vo = new AttachImageVO();
+//		/* 파일 이름 */
+//		String uploadFileName = uploadFile.getOriginalFilename();
+//		vo.setFileName(uploadFileName);
+//		vo.setUploadPath(datePath);
+//		
+//
+//		// uuid 파일이름 중복을 피하기 위해서
+//		String uuid = UUID.randomUUID().toString();
+//		vo.setUuid(uuid);
+//		uploadFileName = uuid + "_" + uploadFileName;
+//
+//		/* 파일 위치, 파일 이름을 합친 File 객체 */
+//		File saveFile = new File(uploadPath, uploadFileName);
+//
+//		/* 파일 저장 */
+//		try {
+//				
+//			  uploadFile.transferTo(saveFile); //썸네일 이미지파일이름 = s_" + "uuid_" + "원본파일 이름"
+//			  /* 1번 방법
+//			 * File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
+//			 * BufferedImage bo_image = ImageIO.read(saveFile);
+//			 * 
+//			 * 비율 double ratio = 3; 넓이 높이 int width = (int) (bo_image.getWidth() / ratio);
+//			 * int height = (int) (bo_image.getHeight() / ratio);
+//			 * 
+//			 * BufferedImage bt_image = new BufferedImage(width, height,
+//			 * BufferedImage.TYPE_3BYTE_BGR); Graphics2D graphic =
+//			 * bt_image.createGraphics(); graphic.drawImage(bo_image, 0, 0,width,height,
+//			 * null); ImageIO.write(bt_image, "jpg", thumbnailFile);
+//			 */
+//			  File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
+//			  BufferedImage bo_image = ImageIO.read(saveFile);
+//			   
+//				double ratio = 3;
+//				//넓이 높이
+//				int width = (int) (bo_image.getWidth() / ratio);
+//				int height = (int) (bo_image.getHeight() / ratio);
+//			  
+//			  Thumbnails.of(saveFile)
+//		        .size(width, height)
+//		        .toFile(thumbnailFile);
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		list.add(vo);
+//		// }
+//		/* 파일 이름 */
+//
+//		ResponseEntity<List<AttachImageVO>> result = new ResponseEntity<List<AttachImageVO>>(list, HttpStatus.OK);
+//		
+//		return result;
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@PostMapping("/deleteFile")
 	public ResponseEntity<String> deleteFile(String fileName){
 		
