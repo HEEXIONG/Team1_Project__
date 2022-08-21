@@ -24,9 +24,11 @@
          	<div class="form_section_title">
                     				<label>상품 이미지</label>
                     			</div>
+                    			
                     			<div class="form_section_content">
 									<input type="file" id ="fileItem" name='uploadFile' style="height: 30px;">
                     			</div>
+                    			
                     		</div>  
                     		</div>
                     		
@@ -55,6 +57,10 @@
 <script type="text/javascript">
 $("input[type='file']").on("change", function(e){
 	
+	if($(".imgDeleteBtn").length > 0){
+		deleteFile();
+	}
+	
 	let formData = new FormData();
 	let fileInput = $('input[name="uploadFile"]');
 	let fileList = fileInput[0].files;
@@ -71,7 +77,7 @@ $("input[type='file']").on("change", function(e){
 		formData.append("uploadFile", fileList[i]);
 	} */
 	$.ajax({
-		url: '/upload/uploadAjaxAction',
+		url: '/uploadAjaxAction',
     	processData : false,
     	contentType : false,
     	data : formData,
@@ -79,6 +85,7 @@ $("input[type='file']").on("change", function(e){
     	dataType : 'json',
     		success : function(result){
 	    		console.log(result);
+	    		//$("#uploadResult").css("display" ,"block");
 	    		showUploadImage(result);
 	    	},
 			error : function(result){
@@ -87,7 +94,13 @@ $("input[type='file']").on("change", function(e){
 	});
 });
 
-/* var, method related with attachFile */
+$("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+	
+	deleteFile();
+	
+});
+
+
 let regex = new RegExp("(.*?)\.(jpg|png)$");
 let maxSize = 5048576; //1MB	
 
@@ -104,12 +117,12 @@ function fileCheck(fileName, fileSize){
 	}
 	
 	return true;		
-	/* 이미지 출력 */
+	
 	
 }
 function showUploadImage(uploadResultArr){
 	
-	/* 전달받은 데이터 검증 */
+	
 	if(!uploadResultArr || uploadResultArr.length == 0){return}
 	
 	let uploadResult = $("#uploadResult");
@@ -118,15 +131,39 @@ function showUploadImage(uploadResultArr){
 	
 	let str = "";
 	
-	let fileCallPath = obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName;
+	let fileCallPath = encodeURIComponent(obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName);
 	
 	str += "<div id='result_card'>";
-	str += "<img src='upload/display?fileName=" + fileCallPath +"'>";
-	str += "<div class='imgDeleteBtn'>x</div>";
+	str += "<img src='/display?fileName=" + fileCallPath +"'>";
+	str += "<div class='imgDeleteBtn' data-file='"+fileCallPath+"'>x</div>";
 	str += "</div>";		
 	
 		uploadResult.append(str);     
     
+}
+function deleteFile(){
+
+	let targetFile = $(".imgDeleteBtn").data("file");
+	
+	
+	let targetDiv = $("#result_card");
+	$.ajax({
+		url: '/deleteFile',
+		data : {fileName : targetFile},
+		dataType : 'text',
+		type : 'POST',
+		success : function(result){
+			console.log(result);
+			//$("#uploadResult").css("display" ,"none");
+			$('img').remove();
+			
+		},
+		error : function(result){
+			console.log(result);
+			
+			alert("파일을 삭제하지 못하였습니다.")
+		}
+   });
 }
 
 
