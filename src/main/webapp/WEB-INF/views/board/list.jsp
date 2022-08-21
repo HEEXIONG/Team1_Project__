@@ -15,7 +15,7 @@
 <body>
 
 
-<%-- <div class="container">
+ <div class="container">
 <div class="row">
 <form>
 <table class="table table-striped" style="text-align: center; border: 1px solid black">
@@ -48,10 +48,10 @@
 </table>
 </form>
 </div>
-</div> --%>
+</div> 
 
-	 
-	<section class="gallery-block cards-gallery">
+	 <!-- css 적용 예정 -->
+	<%-- <section class="gallery-block cards-gallery">
 	    <div class="container">
 	    <h1 style="text-align: center;">중고 마켓</h1>
 	        <div class="heading">
@@ -75,12 +75,8 @@
 	            </c:forEach>
 	        </div>
 	    </div>
-    </section>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script> -->
-   <!--  <script>
-        baguetteBox.run('.cards-gallery', { animation: 'slideIn'});
-    </script> -->
-	
+    </section> --%>
+  
 	
 
 </body>
