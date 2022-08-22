@@ -1,21 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="org.zerock.mapper.BoardMapper">
-  
+  	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item="type" collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							celler like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	  
+	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+	 <![CDATA[
+	SELECT 
+		PNO, TITLE, PINFO, CELLER, REGDATE, UPDATEDATE, PRICE
+	FROM (
+			SELECT /*+ INDEX_DESC(pd_board pk__board) */
+			ROWNUM RN, PNO, TITLE, PINFO, CELLER, REGDATE, UPDATEDATE, PRICE
+			FROM pd_board
+			WHERE
+	]]>
+	
+	<include refid="criteria"></include>
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount}
+			)
+		where rn > (#{pageNum} -1) * #{amount} 
+		]]>
+	</select>	
+	
+	<select id="getList" resultType="org.zerock.domain.BoardVO">
+	<![CDATA[
+		SELECT * FROM pd_board WHERE pno > 0
+	]]>
+	</select>
+	
   <!-- <insert id="insert">
   InSERT INTO pd_board (pno,title,pinfo,celler,price) values (pd_seq.nextval,${title},${pinfo},${celler},${price})
   </insert> -->
   <insert id="insert">
   insert into pd_board (pno,title,pinfo,celler,price)
-VALUES (pd_seq.nextval,#{title},#{pinfo},#{celler},#{price})
+VALUES (pd_SEQ.nextval,#{title},#{pinfo},#{celler},#{price})
   </insert>
-  
-  <select id="getlist" resultType="org.zerock.domain.BoardVO">
-  select * from pd_board
-  </select>
-  
   <update id="update">
   update pd_board
 	set
@@ -24,8 +59,14 @@ VALUES (pd_seq.nextval,#{title},#{pinfo},#{celler},#{price})
 	celler = #{celler},
 	price = #{price},
 	updatedate = sysdate
-	where pno = #{pno};
+	where pno = #{pno}
   </update>
- 
- 
+  
+  <select id="getTotalCount" resultType="int">
+	 select count(*) from pd_board
+	 where
+	 <include refid="criteria"></include>
+	 pno > 0
+	 </select>
+  
   </mapper>
