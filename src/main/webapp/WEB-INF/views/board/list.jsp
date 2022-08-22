@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
 <link rel="stylesheet" href="/resources/css/cards-gallery.css">
@@ -28,6 +29,7 @@
 <th style="text-align: center;">regdate</th>
 <th style="text-align: center;">updatedate</th>
 <th style="text-align: center;">price</th>
+<th style="text-align: center;">image</th>
 </thead>
 <tbody>
 <c:forEach items="${list}" var="list">
@@ -39,6 +41,12 @@
 <td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.regdate}" /></td>
 <td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.updatedate}" /></td>
 <td><c:out value="${list.price}" /></td>
+<!-- <td class="image"> -->
+<td>
+<div class="image_wrap" data-bookid="${list.imageList[0].pno}" data-path="${list.imageList[0].uploadPath}" data-uuid="${list.imageList[0].uuid}" data-filename="${list.imageList[0].fileName}">
+	<img>
+</div>
+</td>
 </tr>
 </c:forEach>
 </tbody>
@@ -50,8 +58,11 @@
 </div>
 </div> 
 
-	 <!-- css 적용 예정 -->
-	<%-- <section class="gallery-block cards-gallery">
+
+
+
+	
+	<section class="gallery-block cards-gallery">
 	    <div class="container">
 	    <h1 style="text-align: center;">중고 마켓</h1>
 	        <div class="heading">
@@ -63,7 +74,11 @@
 	            
 	                <div class="card border-0 transform-on-hover">
 	                	<a class="lightbox" href="/resources/image/nothing.jpg">
-	                		<img src="/resources/image/nothing.jpg" alt="Card Image" class="card-img-top">
+	                		<!-- <img src="/resources/image/nothing.jpg" alt="Card Image" class="card-img-top"> -->
+	                		<div class="image_wrap" data-bookid="${list.imageList[0].pno}" data-path="${list.imageList[0].uploadPath}" data-uuid="${list.imageList[0].uuid}" data-filename="${list.imageList[0].fileName}">
+	<!-- <img> --><img alt="Card Image" class="card-img-top">
+</div>
+	                		
 	                	</a>
 	                    <div class="card-body">
 	                        <h6><a href="#"><c:out value="${list.title}" /></a></h6>
@@ -75,9 +90,24 @@
 	            </c:forEach>
 	        </div>
 	    </div>
-    </section> --%>
+    </section>
   
+	<script type="text/javascript">
+	$(".image_wrap").each(function(i, obj){
+		
+		const bobj = $(obj);
+		
+		const uploadPath = bobj.data("path");
+		const uuid = bobj.data("uuid");
+		const fileName = bobj.data("filename");
+		
+		const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
+		
+		$(this).find("img").attr('src', '/display?fileName=' + fileCallPath);
+		
+	});
 	
+	</script>
 
 </body>
 </html>

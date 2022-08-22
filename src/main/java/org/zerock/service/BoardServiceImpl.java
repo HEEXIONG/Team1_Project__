@@ -41,8 +41,13 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardVO> showlist() {
-		
-		return mapper.getlist();
+		List<BoardVO> list = mapper.getlist();
+		list.forEach(pd ->{
+			Long pdId = pd.getPno();
+			List<AttachImageVO> imageList = mapper.getAttachList(pdId);
+			pd.setImageList(imageList);
+		});
+		return list;
 	}
 
 	
