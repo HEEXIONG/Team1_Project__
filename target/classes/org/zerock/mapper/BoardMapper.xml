@@ -18,7 +18,7 @@ VALUES (#{pno},#{title},#{pinfo},#{celler},#{price})
   </insert>
   
   <select id="getlist" resultType="org.zerock.domain.BoardVO">
-  select * from pd_board order by pno
+  select * from pd_board order by pno desc
   </select>
   
 	<insert id="imageinsert">
@@ -27,7 +27,11 @@ VALUES (#{pno},#{title},#{pinfo},#{celler},#{price})
 	
 	<select id="getAttachList" resultType="org.zerock.domain.AttachImageVO">
 	select * from pd_image where pno = #{pno}
+	</select>
 	
+	
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+		select * from pd_board where pno = #{pno}
 	</select>
  
  

@@ -13,37 +13,38 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>register</h1>
-<form action="/board/register" method="post">
-상품명<input type="text" name="title"><br>
-상품정보<input type="text" name="pinfo"><br>
-판매자<input type="text" name="celler"><br>
-가격<input type="number" name="price"><br>
-<hr>
-<div class="form_section_title">
-            	<div class="form_section">
-         	<div class="form_section_title">
-                    				<label>상품 이미지</label>
-                    			</div>
-                    			
-                    			<div class="form_section_content">
-									<input type="file"  id ="fileItem" name='uploadFile' style="height: 30px;">
-                    			</div>
-                    			
-                    		</div>  
-                    		</div>
-                    		
 
-
-
-
-<div id="uploadResult">
-<!-- <div id="result_card">
-	<div class="imgDeleteBtn">x</div>
-	<img src="/upload/display?fileName=test.png">
-</div> -->
+<div class="container">
+  <h2>판매 글 쓰기</h2>
+  <form action="/board/register" method="post">
+    <div class="form-group">
+      <label for="title">상품명</label>
+      <input type="text" class="form-control" id="title"
+       placeholder="제목 입력(4-100)" name="title"
+       maxlength="100" required="required"
+       pattern=".{4,100}">
+    </div>
+    <div class="form-group">
+   <label for="content">상품 정보</label>
+   <textarea class="form-control" rows="5" id="content"
+    name="pinfo" placeholder="내용 작성"></textarea>
+ </div>
+    <div class="form-group">
+      <label for="writer">판매자</label>
+      <input type="text" class="form-control" id="writer"
+       placeholder="작성자(2자-10자)" name="celler">
+    </div>
+    <div class="form-group">
+      <label for="writer">가격</label>
+      <input type="text" class="form-control" id="writer"
+       placeholder="가격" name="price">
+    </div>
+    <input type="file"  id ="fileItem" name='uploadFile' style="height: 30px;">
+  <div id="uploadResult">
 </div>
-<input type="submit">
+<hr>
+    <button type="submit" class="btn btn-default">등록</button>
+</div>
 </form>
 
 

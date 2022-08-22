@@ -37,7 +37,10 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
-	
+	@Override
+	public BoardVO get(Long pno) {
+		return mapper.read(pno);
+	}
 	
 	@Override
 	public List<BoardVO> showlist() {
@@ -52,10 +55,12 @@ public class BoardServiceImpl implements BoardService {
 
 	
 	
-	
+	//========================================================이미지=========================================
 	@Override
 	public List<AttachImageVO> getAttachList(Long pno) {
 		return mapper.getAttachList(pno);
 	}
+	
+	
 
 }

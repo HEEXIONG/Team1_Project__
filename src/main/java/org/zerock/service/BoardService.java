@@ -13,7 +13,13 @@ public interface BoardService {
 	 
 	 List<BoardVO> showlist();
 	 
+	 BoardVO get (Long pno);
 	 
-	 List<AttachImageVO> getAttachList(Long pno);
+	 
+	 //===================================이미지========================================
+	 
+	public List<AttachImageVO> getAttachList(Long pno);
+	
+	
 
 }

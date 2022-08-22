@@ -6,15 +6,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" />
 <link rel="stylesheet" href="/resources/css/cards-gallery.css">
+<link href="/resources/css/styles.css" rel="stylesheet" />
+<link rel="icon" type="/resources/image/x-icon" href="assets/favicon.ico" />
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
 </head>
+ 
 <body>
-
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/board/list">1팀마켓</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" href="/board/register">등록</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="#">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page header with logo and tagline-->
+        <header class="py-5 bg-light border-bottom mb-4">
+            <div class="container">
+                <div class="text-center my-5">
+                    <h1 class="fw-bolder">1팀마켓에 오신걸 환영합니다!</h1>
+                    <p class="lead mb-0"><!-- 조그만한 글씨 --></p>
+                </div>
+            </div>
+        </header>
 <%-- 
  <div class="container">
 <div class="row">
@@ -64,7 +90,7 @@
 	
 	<section class="gallery-block cards-gallery">
 	    <div class="container">
-	    <h1 style="text-align: center;">중고 마켓</h1>
+	  
 	        <div class="heading">
 	         
 	        </div>
@@ -73,7 +99,7 @@
 	            <div class="col-md-6 col-lg-4">
 	            
 	                <div class="card border-0 transform-on-hover">
-	                	<a class="lightbox" href="/resources/image/nothing.jpg">
+	                	<a class="lightbox" href='/board/get?pno=<c:out value="${list.pno}"/>'>
 	                		<!-- <img src="/resources/image/nothing.jpg" alt="Card Image" class="card-img-top"> -->
 	                		<div class="image_wrap" data-pno="${list.imageList[0].pno}" data-path="${list.imageList[0].uploadPath}" data-uuid="${list.imageList[0].uuid}" data-filename="${list.imageList[0].fileName}">
 	<!-- <img> --><img alt="Card Image" class="card-img-top">
