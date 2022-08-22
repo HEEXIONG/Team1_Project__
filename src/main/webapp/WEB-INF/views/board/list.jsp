@@ -15,7 +15,7 @@
 </head>
 <body>
 
-
+<%-- 
  <div class="container">
 <div class="row">
 <form>
@@ -57,7 +57,7 @@
 </form>
 </div>
 </div> 
-
+ --%>
 
 
 
@@ -75,7 +75,7 @@
 	                <div class="card border-0 transform-on-hover">
 	                	<a class="lightbox" href="/resources/image/nothing.jpg">
 	                		<!-- <img src="/resources/image/nothing.jpg" alt="Card Image" class="card-img-top"> -->
-	                		<div class="image_wrap" data-bookid="${list.imageList[0].pno}" data-path="${list.imageList[0].uploadPath}" data-uuid="${list.imageList[0].uuid}" data-filename="${list.imageList[0].fileName}">
+	                		<div class="image_wrap" data-pno="${list.imageList[0].pno}" data-path="${list.imageList[0].uploadPath}" data-uuid="${list.imageList[0].uuid}" data-filename="${list.imageList[0].fileName}">
 	<!-- <img> --><img alt="Card Image" class="card-img-top">
 </div>
 	                		
@@ -97,6 +97,8 @@
 		
 		const bobj = $(obj);
 		
+		 if(bobj.data("pno")){ 
+			
 		const uploadPath = bobj.data("path");
 		const uuid = bobj.data("uuid");
 		const fileName = bobj.data("filename");
@@ -104,6 +106,9 @@
 		const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
 		
 		$(this).find("img").attr('src', '/display?fileName=' + fileCallPath);
+		} else{
+			$(this).find("img").attr('src', '/resources/image/nothing.jpg');
+		} 
 		
 	});
 	
