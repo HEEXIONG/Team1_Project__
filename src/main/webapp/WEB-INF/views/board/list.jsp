@@ -83,6 +83,7 @@
 	                    <div class="card-body">
 	                        <h6><a href="#"><c:out value="${list.title}" /></a></h6>
 	                        <p class="text-muted card-text"><c:out value="${list.pinfo}" /></p>
+	                        <p class="text-muted card-text"><b><c:out value="${list.price}원" /></b></p>
 	                    </div>
 	                </div>
 	            </div>
